@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var validator = require('validator');
 
+
 var direction = {
     step:{ type: String },
     type:{ type: String },
@@ -19,8 +20,14 @@ var ingredient = {
 
 
 const Recipe = mongoose.model('Recipe', {
-    userId:{
-        type:String
+    owner:{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
+    isPrivate:{
+        type: Boolean,
+        default: true
     },
     recipeName: {
         type: String
