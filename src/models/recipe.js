@@ -28,6 +28,7 @@ const recipeSchema = new mongoose.Schema({
         measurementType: { type: String },
     }],
     directions: [{
+        id: {type: String},
         step: { type: String },
         type: { type: String },
         ingrediantsUsed: [{
@@ -40,7 +41,7 @@ const recipeSchema = new mongoose.Schema({
             amount: { type: Number, default: 0 },
             measurementType: { type: String },
         }],
-        preperationTime: { type: String }
+        preperationTime: { type: String,  required: false}
     }]
 
 }, {

@@ -10,6 +10,9 @@ router.post('/recipes',auth, async (req, res)=>{
             delete req.body.owner;
         }
 
+        delete req.body._id;
+        
+
         const recipe = new Recipe({
             ...req.body,
             owner: req.user._id
@@ -42,19 +45,19 @@ router.get('/recipes',auth, async (req,res)=>{
             sort[sortParam[0]] = sortParam[1] === 'desc'? -1 : 1;
         }
 
-        //const recipes = await Recipe.find({owner: req.user._id});
+        const recipes = await Recipe.find({owner: req.user._id});
         //const recipes = await req.user.populate('recipes').execPopulate();
-        const recipes = await req.user.populate({
-            path: 'recipes',
-            match: match,
-            options:{
-                options:{
-                    limit: parseInt(req.query.limit),
-                    skip: parseInt(req.query.skip),
-                    sort:sort
-                }
-            }
-        }).execPopulate();
+        // const recipes = await req.user.populate({
+        //     path: 'recipes',
+        //     match: match,
+        //     options:{
+        //         options:{
+        //             limit: parseInt(req.query.limit),
+        //             skip: parseInt(req.query.skip),
+        //             sort:sort
+        //         }
+        //     }
+        // }).execPopulate();
 
 
 
@@ -128,11 +131,13 @@ router.get('/recipes/:id',auth, async (req,res)=>{
 
 router.patch('/recipes/:id',auth, async (req, res)=>{
     try{
+        
         const _id = req.params.id;
 
         //const recipe = await Recipe.findByIdAndUpdate(_id, req.body, { new: true, runValidators: true });
         const recipe = await Recipe.findOneAndUpdate({ _id: _id, owner: req.user._id}, req.body, { new: true, runValidators: true });
         //const recipe = await Recipe.findOne({ _id: _id, owner: req.user._id});
+        
 
         
         if (!recipe){
@@ -140,6 +145,7 @@ router.patch('/recipes/:id',auth, async (req, res)=>{
         }
         
         //recipe.updateOne(req.body, { new: true, runValidators: true });
+
         res.send(recipe);
         
     }catch(e){
