@@ -40,6 +40,9 @@ app.use(utilsRouter);
 //     next();
 // });
 
+app.get('/', ()=>{
+    return "home recipes api";
+});
 
 app.listen(port, ()=>{
     console.log("App listening on port: " + port);
