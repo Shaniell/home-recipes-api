@@ -40,8 +40,8 @@ app.use(utilsRouter);
 //     next();
 // });
 
-app.get('/', ()=>{
-    return "home recipes api";
+app.get('/',  function(req, res){
+    res.send("home recipes api");
 });
 
 app.listen(port, ()=>{
